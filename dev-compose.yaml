@@ -1,0 +1,9 @@
+services:
+  postgres:
+    image: 'postgres:latest'
+    environment:
+      - 'POSTGRES_DB={{sensitive_data}}'
+      - 'POSTGRES_PASSWORD={{sensitive_data}}'
+      - 'POSTGRES_USER={{sensitive_data}}'
+    ports:
+      - '5432:5432'

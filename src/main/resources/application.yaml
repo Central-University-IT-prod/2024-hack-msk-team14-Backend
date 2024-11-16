@@ -1,0 +1,41 @@
+spring:
+  application:
+    name: ProdeliApplication
+  docker:
+    compose:
+      file: dev-compose.yaml
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    username: ${POSTGRES_USERNAME:postgres}
+    password: ${POSTGRES_PASSWORD:password}
+    url: ${POSTGRES_JDBC_URL:jdbc:postgresql://localhost:5432/postgres}
+  jpa:
+    hibernate:
+      ddl-auto: update
+  data:
+    redis:
+      database: 0
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:}
+      timeout: 60000
+  mvc:
+    async:
+      request-timeout: 5000
+springdoc:
+  paths-to-match: /api/**
+  swagger-ui:
+    try-it-out-enabled: false
+
+server:
+  port: ${SERVER_PORT:5002}
+
+logging:
+  level:
+    org.springframework.web: DEBUG
+    org.hibernate: ERROR
+proverkachecka:
+  token: ${PROVERKACHECKA_API_TOKEN:}
+ktgram:
+  bot:
+    - token: ${TELEGRAM_BOT_TOKEN}

@@ -1,0 +1,33 @@
+version: '3'
+services:
+  backend:
+    image: 'prod-hack.gitlab.yandexcloud.net:5050/prod-team-14/backend:refactor'
+    ports:
+      - "${SERVER_PORT}:${SERVER_PORT}"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      POSTGRES_USERNAME: ${POSTGRES_USERNAME}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_JDBC_URL: ${POSTGRES_JDBC_URL}
+      SERVER_PORT: ${SERVER_PORT}
+      REDIS_HOST: ${REDIS_HOST}
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}
+      PROVERKACHECKA_API_TOKEN: ${PROVERKACHECKA_API_TOKEN}
+  postgres:
+    image: 'postgres:latest'
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_USER: ${POSTGRES_USERNAME}
+      POSTGRES_PORT: ${POSTGRES_PORT}
+    healthcheck:
+      test: [ "CMD", "pg_isready" ]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    volumes:
+      - db-data:/var/lib/postgresql/data
+volumes:
+  db-data:
